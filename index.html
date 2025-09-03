@@ -58,23 +58,24 @@
   <h2>Contact Us</h2>
   <p>We’d love to hear from you. Fill out the form below or reach us directly.</p>
 
-  <form id="contactForm">
-    <label for="name">Name:</label>
-    <input type="text" id="name" placeholder="Your Name" required>
+<form id="contactForm" action="https://formspree.io/f/mnqkgyza" method="POST">
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" placeholder="Your Name" required>
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" placeholder="Your Email" required>
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="_replyto" placeholder="Your Email" required>
 
-    <label for="message">Message:</label>
-    <textarea id="message" placeholder="Your Message" required></textarea>
+  <label for="message">Message:</label>
+  <textarea id="message" name="message" placeholder="Your Message" required></textarea>
 
-    <button type="submit">Send Message</button>
-  </form>
+  <button type="submit">Send Message</button>
+</form>
+
 
   <div class="contact-info">
     <p><strong>📧 Email:</strong> info@mybusiness.com</p>
     <p><strong>📞 Phone:</strong> +234 812 345 6789</p>
-    <p><strong>📍 Address:</strong> Jos, Plateau State, Nigeria</p>
+    <p><strong> Address:</strong> Jos, Plateau State, Nigeria</p>
   </div>
 </section>
 
