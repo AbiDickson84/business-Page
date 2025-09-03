@@ -129,6 +129,17 @@ header {
   text-align: center;
 }
 
+.contact-info {
+  margin-top: 2rem;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.8;
+}
+
+.contact-info p {
+  margin-bottom: 0.5rem;
+}
+
 .contact form {
   max-width: 500px;
   margin: 0 auto;
