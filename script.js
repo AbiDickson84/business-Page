@@ -136,14 +136,14 @@ setTimeout(() => {
 }, 2000);
 
 // ===== Testimonial Carousel =====
-const slides = document.querySelectorAll(".testimonial-slide");
+const slidesSimple = document.querySelectorAll(".testimonial-slide");
 let currentIndex = 0;
 
 function showSlide(index) {
-  slides.forEach((slide, i) => {
+  slidesSimple.forEach((slide, i) => {
     slide.classList.remove("visible");
   });
-  slides[index].classList.add("visible");
+  slidesSimple[index].classList.add("visible");
 }
 
 // Initial slide
@@ -151,18 +151,18 @@ showSlide(currentIndex);
 
 // Next / Prev buttons
 document.getElementById("next").addEventListener("click", () => {
-  currentIndex = (currentIndex + 1) % slides.length;
+  currentIndex = (currentIndex + 1) % slidesSimple.length;
   showSlide(currentIndex);
 });
 
 document.getElementById("prev").addEventListener("click", () => {
-  currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+  currentIndex = (currentIndex - 1 + slidesSimple.length) % slidesSimple.length;
   showSlide(currentIndex);
 });
 
 // Auto-slide every 5 seconds
 setInterval(() => {
-  currentIndex = (currentIndex + 1) % slides.length;
+  currentIndex = (currentIndex + 1) % slidesSimple.length;
   showSlide(currentIndex);
 }, 5000);
 
@@ -172,7 +172,7 @@ const track = document.querySelector(".testimonial-track");
 const slides = document.querySelectorAll(".testimonial-slide");
 const nextBtn = document.getElementById("next");
 const prevBtn = document.getElementById("prev");
-let currentIndex = 0;
+let carouselIndex = 0;
 
 // Number of slides visible based on screen width
 function getSlidesToShow() {
@@ -184,31 +184,31 @@ function getSlidesToShow() {
 function updateSlidePosition() {
   const slidesToShow = getSlidesToShow();
   const slideWidth = slides[0].getBoundingClientRect().width;
-  const offset = slideWidth * currentIndex;
+  const offset = slideWidth * carouselIndex;
   track.style.transform = `translateX(-${offset}px)`;
 }
 
 // Next button
 nextBtn.addEventListener("click", () => {
   const slidesToShow = getSlidesToShow();
-  currentIndex = (currentIndex + 1) % slides.length;
-  if (currentIndex > slides.length - slidesToShow) currentIndex = 0;
+  carouselIndex = (carouselIndex + 1) % slides.length;
+  if (carouselIndex > slides.length - slidesToShow) carouselIndex = 0;
   updateSlidePosition();
 });
 
 // Prev button
 prevBtn.addEventListener("click", () => {
   const slidesToShow = getSlidesToShow();
-  currentIndex = currentIndex - 1;
-  if (currentIndex < 0) currentIndex = slides.length - slidesToShow;
+  carouselIndex = carouselIndex - 1;
+  if (carouselIndex < 0) carouselIndex = slides.length - slidesToShow;
   updateSlidePosition();
 });
 
 // Auto-slide every 5s
 setInterval(() => {
   const slidesToShow = getSlidesToShow();
-  currentIndex = (currentIndex + 1) % slides.length;
-  if (currentIndex > slides.length - slidesToShow) currentIndex = 0;
+  carouselIndex = (carouselIndex + 1) % slides.length;
+  if (carouselIndex > slides.length - slidesToShow) carouselIndex = 0;
   updateSlidePosition();
 }, 5000);
 
