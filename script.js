@@ -92,12 +92,14 @@ window.addEventListener("scroll", () => {
   }
 });
 
-scrollTopBtn.addEventListener("click", () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
+if (scrollTopBtn) {
+  scrollTopBtn.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   });
-});
+}
 
 // ===== Fade-in on Scroll =====
 const fadeEls = document.querySelectorAll(".fade-in");
@@ -127,6 +129,7 @@ window.addEventListener("load", () => {
 
 // Safety: Auto-hide preloader after 2s in case load is slow
 setTimeout(() => {
+  const preloader = document.getElementById("preloader");
   if (preloader && preloader.style.display !== "none") {
     preloader.style.opacity = "0";
     setTimeout(() => {
@@ -135,41 +138,9 @@ setTimeout(() => {
   }
 }, 2000);
 
-// ===== Testimonial Carousel =====
-const slidesSimple = document.querySelectorAll(".testimonial-slide");
-let currentIndex = 0;
-
-function showSlide(index) {
-  slidesSimple.forEach((slide, i) => {
-    slide.classList.remove("visible");
-  });
-  slidesSimple[index].classList.add("visible");
-}
-
-// Initial slide
-showSlide(currentIndex);
-
-// Next / Prev buttons
-document.getElementById("next").addEventListener("click", () => {
-  currentIndex = (currentIndex + 1) % slidesSimple.length;
-  showSlide(currentIndex);
-});
-
-document.getElementById("prev").addEventListener("click", () => {
-  currentIndex = (currentIndex - 1 + slidesSimple.length) % slidesSimple.length;
-  showSlide(currentIndex);
-});
-
-// Auto-slide every 5 seconds
-setInterval(() => {
-  currentIndex = (currentIndex + 1) % slidesSimple.length;
-  showSlide(currentIndex);
-}, 5000);
-
-
-// ===== Testimonial Carousel =====
+// ===== Testimonial Carousel (Updated, Sliding Version) =====
 const track = document.querySelector(".testimonial-track");
-const slides = document.querySelectorAll(".testimonial-slide");
+const carouselSlides = document.querySelectorAll(".testimonial-slide");
 const nextBtn = document.getElementById("next");
 const prevBtn = document.getElementById("prev");
 let carouselIndex = 0;
@@ -183,32 +154,36 @@ function getSlidesToShow() {
 
 function updateSlidePosition() {
   const slidesToShow = getSlidesToShow();
-  const slideWidth = slides[0].getBoundingClientRect().width;
+  const slideWidth = carouselSlides[0].getBoundingClientRect().width;
   const offset = slideWidth * carouselIndex;
   track.style.transform = `translateX(-${offset}px)`;
 }
 
 // Next button
-nextBtn.addEventListener("click", () => {
-  const slidesToShow = getSlidesToShow();
-  carouselIndex = (carouselIndex + 1) % slides.length;
-  if (carouselIndex > slides.length - slidesToShow) carouselIndex = 0;
-  updateSlidePosition();
-});
+if (nextBtn) {
+  nextBtn.addEventListener("click", () => {
+    const slidesToShow = getSlidesToShow();
+    carouselIndex++;
+    if (carouselIndex > carouselSlides.length - slidesToShow) carouselIndex = 0;
+    updateSlidePosition();
+  });
+}
 
 // Prev button
-prevBtn.addEventListener("click", () => {
-  const slidesToShow = getSlidesToShow();
-  carouselIndex = carouselIndex - 1;
-  if (carouselIndex < 0) carouselIndex = slides.length - slidesToShow;
-  updateSlidePosition();
-});
+if (prevBtn) {
+  prevBtn.addEventListener("click", () => {
+    const slidesToShow = getSlidesToShow();
+    carouselIndex--;
+    if (carouselIndex < 0) carouselIndex = carouselSlides.length - slidesToShow;
+    updateSlidePosition();
+  });
+}
 
 // Auto-slide every 5s
 setInterval(() => {
   const slidesToShow = getSlidesToShow();
-  carouselIndex = (carouselIndex + 1) % slides.length;
-  if (carouselIndex > slides.length - slidesToShow) carouselIndex = 0;
+  carouselIndex++;
+  if (carouselIndex > carouselSlides.length - slidesToShow) carouselIndex = 0;
   updateSlidePosition();
 }, 5000);
 
@@ -217,3 +192,46 @@ window.addEventListener("resize", updateSlidePosition);
 
 // Initialize position
 updateSlidePosition();
+
+
+// const track = document.querySelector('.testimonial-track'); // Removed duplicate declaration
+const dotSlides = Array.from(document.querySelectorAll('.testimonial-slide'));
+const prevBtnDots = document.getElementById('prev');
+const nextBtnDots = document.getElementById('next');
+const dotsContainer = document.getElementById('testimonial-dots');
+
+let currentIndex = 0;
+
+// Create dots dynamically
+dotSlides.forEach((_, index) => {
+  const dot = document.createElement('button');
+  if (index === 0) dot.classList.add('active');
+  dot.addEventListener('click', () => goToSlide(index));
+  dotsContainer.appendChild(dot);
+});
+
+const dots = document.querySelectorAll('.testimonial-dots button');
+
+// Update slide position
+function updateDotSlidePosition() {
+  track.style.transform = `translateX(-${currentIndex * 100}%)`;
+  dots.forEach(dot => dot.classList.remove('active'));
+  dots[currentIndex].classList.add('active');
+}
+
+// Go to specific slide
+function goToSlide(index) {
+  currentIndex = index;
+  updateDotSlidePosition();
+}
+
+// Next & Prev buttons
+nextBtnDots.addEventListener('click', () => {
+  currentIndex = (currentIndex + 1) % dotSlides.length;
+  updateDotSlidePosition();
+});
+
+prevBtnDots.addEventListener('click', () => {
+  currentIndex = (currentIndex - 1 + dotSlides.length) % dotSlides.length;
+  updateDotSlidePosition();
+});
