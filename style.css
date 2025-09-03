@@ -66,10 +66,14 @@ header {
   padding: 5rem 2rem;
 }
 
+/* Hero Section Heading */
 .hero h1 {
-  font-size: 3rem;
+  color: #ffffff; /* white color */
+  font-size: 3rem; /* optional: adjust size */
+  text-align: center; /* center it */
   margin-bottom: 1rem;
 }
+
 
 .hero p {
   font-size: 1.2rem;

@@ -114,16 +114,14 @@ const fadeInOnScroll = () => {
 window.addEventListener("scroll", fadeInOnScroll);
 window.addEventListener("load", fadeInOnScroll);
 
-// ===== Preloader (Hybrid Version) =====
-const preloader = document.getElementById("preloader");
-
-// Hide preloader on window load
+// ===== Preloader =====
 window.addEventListener("load", () => {
+  const preloader = document.getElementById("preloader");
   if (preloader) {
-    preloader.style.opacity = "0";
+    preloader.style.opacity = "0";      // fade out
     setTimeout(() => {
-      preloader.style.display = "none";
-    }, 300);
+      preloader.style.display = "none"; // hide completely
+    }, 500);
   }
 });
 
