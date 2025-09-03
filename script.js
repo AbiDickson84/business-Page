@@ -135,46 +135,85 @@ setTimeout(() => {
   }
 }, 2000);
 
-// ===== Testimonial Slider =====
-const slider = document.querySelector(".testimonial-slider");
-const slides = document.querySelectorAll(".testimonial");
+// ===== Testimonial Carousel =====
+const slides = document.querySelectorAll(".testimonial-slide");
 let currentIndex = 0;
 
 function showSlide(index) {
-  if (index < 0) currentIndex = slides.length - 1;
-  else if (index >= slides.length) currentIndex = 0;
-  else currentIndex = index;
-
   slides.forEach((slide, i) => {
     slide.classList.remove("visible");
-    if (i === currentIndex) slide.classList.add("visible");
   });
-
-  slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+  slides[index].classList.add("visible");
 }
 
-// Initialize first slide
-slides[currentIndex].classList.add("visible");
+// Initial slide
+showSlide(currentIndex);
+
+// Next / Prev buttons
+document.getElementById("next").addEventListener("click", () => {
+  currentIndex = (currentIndex + 1) % slides.length;
+  showSlide(currentIndex);
+});
+
+document.getElementById("prev").addEventListener("click", () => {
+  currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+  showSlide(currentIndex);
+});
 
 // Auto-slide every 5 seconds
 setInterval(() => {
-  showSlide(currentIndex + 1);
+  currentIndex = (currentIndex + 1) % slides.length;
+  showSlide(currentIndex);
 }, 5000);
 
-// Navigation buttons
-const prevBtn = document.getElementById("prev-testimonial");
-const nextBtn = document.getElementById("next-testimonial");
 
-prevBtn.addEventListener("click", () => showSlide(currentIndex - 1));
-nextBtn.addEventListener("click", () => showSlide(currentIndex + 1));
+// ===== Testimonial Carousel =====
+const track = document.querySelector(".testimonial-track");
+const slides = document.querySelectorAll(".testimonial-slide");
+const nextBtn = document.getElementById("next");
+const prevBtn = document.getElementById("prev");
+let currentIndex = 0;
 
-// Optional: swipe support for mobile
-let startX = 0;
-let endX = 0;
+// Number of slides visible based on screen width
+function getSlidesToShow() {
+  if (window.innerWidth >= 1024) return 3;
+  if (window.innerWidth >= 768) return 2;
+  return 1;
+}
 
-slider.addEventListener("touchstart", (e) => startX = e.touches[0].clientX);
-slider.addEventListener("touchend", (e) => {
-  endX = e.changedTouches[0].clientX;
-  if (endX < startX - 50) showSlide(currentIndex + 1);
-  else if (endX > startX + 50) showSlide(currentIndex - 1);
+function updateSlidePosition() {
+  const slidesToShow = getSlidesToShow();
+  const slideWidth = slides[0].getBoundingClientRect().width;
+  const offset = slideWidth * currentIndex;
+  track.style.transform = `translateX(-${offset}px)`;
+}
+
+// Next button
+nextBtn.addEventListener("click", () => {
+  const slidesToShow = getSlidesToShow();
+  currentIndex = (currentIndex + 1) % slides.length;
+  if (currentIndex > slides.length - slidesToShow) currentIndex = 0;
+  updateSlidePosition();
 });
+
+// Prev button
+prevBtn.addEventListener("click", () => {
+  const slidesToShow = getSlidesToShow();
+  currentIndex = currentIndex - 1;
+  if (currentIndex < 0) currentIndex = slides.length - slidesToShow;
+  updateSlidePosition();
+});
+
+// Auto-slide every 5s
+setInterval(() => {
+  const slidesToShow = getSlidesToShow();
+  currentIndex = (currentIndex + 1) % slides.length;
+  if (currentIndex > slides.length - slidesToShow) currentIndex = 0;
+  updateSlidePosition();
+}, 5000);
+
+// Update on window resize
+window.addEventListener("resize", updateSlidePosition);
+
+// Initialize position
+updateSlidePosition();
