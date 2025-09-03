@@ -2,32 +2,59 @@
 const menuToggle = document.getElementById("menu-toggle");
 const navLinks = document.querySelector(".nav-links");
 
-menuToggle.addEventListener("click", () => {
-  navLinks.classList.toggle("active");
-});
+if (menuToggle && navLinks) {
+  menuToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+  });
+}
 
-// ======= Contact Form Validation =======
-const contactForm = document.getElementById("contactForm");
+// ======= Contact Form (Formspree Integration + Validation) =======
+const form = document.getElementById("contact-form");
+const status = document.getElementById("form-status");
 
-contactForm.addEventListener("submit", (e) => {
-  e.preventDefault(); // stop form from submitting immediately
+if (form) {
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const message = document.getElementById("message").value.trim();
+    // === Inline Validation ===
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
 
-  if (name === "" || email === "" || message === "") {
-    alert("Please fill in all fields.");
-    return;
-  }
+    if (name === "" || email === "" || message === "") {
+      status.innerHTML = "<p style='color: red;'>⚠️ Please fill in all fields.</p>";
+      return;
+    }
 
-  // Simple email validation
-  const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-  if (!email.match(emailPattern)) {
-    alert("Please enter a valid email address.");
-    return;
-  }
+    const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
+    if (!email.match(emailPattern)) {
+      status.innerHTML = "<p style='color: red;'>⚠️ Please enter a valid email address.</p>";
+      return;
+    }
 
-  alert("Thank you, " + name + "! Your message has been sent.");
-  contactForm.reset();
-});
+    // === Send Data to Formspree ===
+    const formData = new FormData(form);
+
+    try {
+      let response = await fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: { Accept: "application/json" }
+      });
+
+      if (response.ok) {
+        status.innerHTML = "<p style='color: green;'>✅ Thank you! Your message has been sent.</p>";
+        form.reset();
+
+        // Auto-hide success message after 5 seconds
+        setTimeout(() => {
+          status.innerHTML = "";
+        }, 5000);
+      } else {
+        status.innerHTML = "<p style='color: red;'>⚠️ Oops! Something went wrong. Please try again.</p>";
+      }
+    } catch (error) {
+      status.innerHTML = "<p style='color: red;'>⚠️ Network error. Please check your connection.</p>";
+    }
+  });
+}

@@ -5,6 +5,7 @@
   box-sizing: border-box;
 }
 
+
 body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
@@ -13,8 +14,8 @@ body {
 
 /* Navbar */
 header {
-  background: #222;
-  color: #fff;
+  background: #000;
+  color: hsl(54, 90%, 49%);
   padding: 1rem 2rem;
   position: sticky;
   top: 0;
@@ -25,6 +26,8 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  text-align: center;
+
 }
 
 .logo {
@@ -131,14 +134,14 @@ text-decoration: none;
 .contact {
   padding: 3rem 2rem;
   text-align: center;
-  background-color: #d8b554;
-  color: #000;
+  background-color: #686152;
+  color: hsl(0, 0%, 100%);
 }
 
 .contact-info {
   margin-top: 2rem;
   font-size: 1rem;
-  color: #555;
+  color: #fff;
   line-height: 1.8;
 }
 
@@ -183,6 +186,71 @@ footer {
   padding: 1rem;
 }
 
+
+/* Contact Form Styling */
+.contact-form {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: hsl(0, 83%, 65%);
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #0077cc;
+  outline: none;
+}
+
+.contact-form button {
+  width: 100%;
+  padding: 14px;
+  background: #0077cc;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.contact-form button:hover {
+  background: #005fa3;
+}
+#form-status {
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .contact-form {
+    padding: 15px;
+    
+  }
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   .nav-links {
@@ -194,6 +262,7 @@ footer {
     right: 0;
     width: 200px;
     padding: 1rem;
+    color: #000;
   }
 
   .nav-links.active {
@@ -206,6 +275,7 @@ footer {
 
   .hero h1 {
     font-size: 2rem;
+    color: #000;
   }
 
   .service-container {
