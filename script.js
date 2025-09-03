@@ -58,6 +58,7 @@ if (form) {
     }
   });
 }
+
 // ===== Smooth Scroll for Navigation =====
 document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
   anchor.addEventListener("click", function (e) {
@@ -68,6 +69,7 @@ document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
     });
   });
 });
+
 // ===== Sticky Navbar =====
 const navbar = document.querySelector("nav");
 
@@ -78,6 +80,7 @@ window.addEventListener("scroll", () => {
     navbar.classList.remove("scrolled");
   }
 });
+
 // ===== Scroll-to-Top Button =====
 const scrollTopBtn = document.getElementById("scrollTopBtn");
 
@@ -95,6 +98,7 @@ scrollTopBtn.addEventListener("click", () => {
     behavior: "smooth"
   });
 });
+
 // ===== Fade-in on Scroll =====
 const fadeEls = document.querySelectorAll(".fade-in");
 
@@ -110,12 +114,25 @@ const fadeInOnScroll = () => {
 window.addEventListener("scroll", fadeInOnScroll);
 window.addEventListener("load", fadeInOnScroll);
 
+// ===== Preloader (Hybrid Version) =====
+const preloader = document.getElementById("preloader");
 
-// ===== Preloader =====
+// Hide preloader on window load
 window.addEventListener("load", () => {
-  const preloader = document.getElementById("preloader");
-  preloader.style.opacity = "0";
-  setTimeout(() => {
-    preloader.style.display = "none";
-  }, 500); // hides after fade out
+  if (preloader) {
+    preloader.style.opacity = "0";
+    setTimeout(() => {
+      preloader.style.display = "none";
+    }, 300);
+  }
 });
+
+// Safety: Auto-hide preloader after 2s in case load is slow
+setTimeout(() => {
+  if (preloader && preloader.style.display !== "none") {
+    preloader.style.opacity = "0";
+    setTimeout(() => {
+      preloader.style.display = "none";
+    }, 300);
+  }
+}, 2000);
