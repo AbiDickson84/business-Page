@@ -134,3 +134,47 @@ setTimeout(() => {
     }, 300);
   }
 }, 2000);
+
+// ===== Testimonial Slider =====
+const slider = document.querySelector(".testimonial-slider");
+const slides = document.querySelectorAll(".testimonial");
+let currentIndex = 0;
+
+function showSlide(index) {
+  if (index < 0) currentIndex = slides.length - 1;
+  else if (index >= slides.length) currentIndex = 0;
+  else currentIndex = index;
+
+  slides.forEach((slide, i) => {
+    slide.classList.remove("visible");
+    if (i === currentIndex) slide.classList.add("visible");
+  });
+
+  slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+}
+
+// Initialize first slide
+slides[currentIndex].classList.add("visible");
+
+// Auto-slide every 5 seconds
+setInterval(() => {
+  showSlide(currentIndex + 1);
+}, 5000);
+
+// Navigation buttons
+const prevBtn = document.getElementById("prev-testimonial");
+const nextBtn = document.getElementById("next-testimonial");
+
+prevBtn.addEventListener("click", () => showSlide(currentIndex - 1));
+nextBtn.addEventListener("click", () => showSlide(currentIndex + 1));
+
+// Optional: swipe support for mobile
+let startX = 0;
+let endX = 0;
+
+slider.addEventListener("touchstart", (e) => startX = e.touches[0].clientX);
+slider.addEventListener("touchend", (e) => {
+  endX = e.changedTouches[0].clientX;
+  if (endX < startX - 50) showSlide(currentIndex + 1);
+  else if (endX > startX + 50) showSlide(currentIndex - 1);
+});
