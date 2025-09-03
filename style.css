@@ -6,7 +6,10 @@
 }
 
 
-body {
+body,html {
+margin: 0;
+ scroll-behavior: smooth;
+padding: 0;
   font-family: Arial, sans-serif;
   line-height: 1.6;
   color: #333;
