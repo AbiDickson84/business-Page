@@ -58,3 +58,56 @@ if (form) {
     }
   });
 }
+// ===== Smooth Scroll for Navigation =====
+document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    document.querySelector(this.getAttribute("href")).scrollIntoView({
+      behavior: "smooth"
+    });
+  });
+});
+// ===== Sticky Navbar =====
+const navbar = document.querySelector("nav");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 50) {
+    navbar.classList.add("scrolled");
+  } else {
+    navbar.classList.remove("scrolled");
+  }
+});
+// ===== Scroll-to-Top Button =====
+const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 300) {
+    scrollTopBtn.style.display = "block";
+  } else {
+    scrollTopBtn.style.display = "none";
+  }
+});
+
+scrollTopBtn.addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
+// ===== Fade-in on Scroll =====
+const fadeEls = document.querySelectorAll(".fade-in");
+
+const fadeInOnScroll = () => {
+  fadeEls.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 100) {
+      el.classList.add("visible");
+    }
+  });
+};
+
+window.addEventListener("scroll", fadeInOnScroll);
+window.addEventListener("load", fadeInOnScroll);
+
+

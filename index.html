@@ -8,7 +8,7 @@
 </head>
 <body>
   <!-- Header / Navbar -->
-  <header>
+  <header class="fade-in">
     <nav class="navbar">
       <div class="logo">My Business</div>
       <ul class="nav-links">
@@ -22,31 +22,31 @@
   </header>
 
   <!-- Hero Section -->
-  <section id="home" class="hero">
+<section id="home" class="hero fade-in visible">
     <h1>Welcome to My Business</h1>
     <p>Your success is our priority</p>
     <a href="#services" class="btn">Learn More</a>
   </section>
 
   <!-- About Section -->
-  <section id="about" class="about">
+  <section id="about" class="about fade-in">
     <h2>About Us</h2>
     <p>We are a dedicated team providing top-quality solutions to help your business grow.</p>
   </section>
 
   <!-- Services Section -->
-  <section id="services" class="services">
+  <section id="services" class="services fade-in">
     <h2>Our Services</h2>
     <div class="service-container">
-      <div class="service">
+      <div class="service fade-in">
         <h3>Web Development</h3>
         <p>We build responsive and modern websites.</p>
       </div>
-      <div class="service">
+      <div class="service fade-in">
         <h3>Marketing</h3>
         <p>Boost your brand with our digital marketing strategies.</p>
       </div>
-      <div class="service">
+      <div class="service fade-in">
         <h3>Consulting</h3>
         <p>Expert advice to guide your business to success.</p>
       </div>
@@ -54,43 +54,40 @@
   </section>
 
   <!-- Contact Section -->
-<section id="contact" class="contact">
-  <h2>Contact Us</h2>
-  <p>We’d love to hear from you. Fill out the form below or reach us directly.</p>
-<form id="contact-form" action="https://formspree.io/f/xkgvpwpg" method="POST" class="contact-form">
-  <label for="name">Name:</label>
-  <input type="text" id="name" name="name" placeholder="Your Name" required>
+  <section id="contact" class="contact fade-in">
+    <h2>Contact Us</h2>
+    <p>We’d love to hear from you. Fill out the form below or reach us directly.</p>
 
-  <label for="email">Email:</label>
-  <input type="email" id="email" name="_replyto" placeholder="Your Email" required>
+    <form id="contact-form" action="https://formspree.io/f/xkgvpwpg" method="POST" class="contact-form fade-in">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" placeholder="Your Name" required>
 
-  <label for="message">Message:</label>
-  <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="_replyto" placeholder="Your Email" required>
 
-  <button type="submit">Send Message</button>
-</form>
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" placeholder="Your Message" required></textarea>
 
-<!-- Success/Error Message -->
-<div id="form-status"></div>
+      <button type="submit">Send Message</button>
+    </form>
 
+    <!-- Success/Error Message -->
+    <div id="form-status"></div>
 
-<!-- Success/Error Message -->
-<div id="form-status"></div>
-
-
-
-  <div class="contact-info">
-    <p><strong>📧 Email:</strong> info@mybusiness.com</p>
-    <p><strong>📞 Phone:</strong> +234 9012235892</p>
-    <p><strong> Address:</strong> Jos, Plateau State, Nigeria</p>
-  </div>
-</section>
-
+    <div class="contact-info fade-in">
+      <p><strong>📧 Email:</strong> info@mybusiness.com</p>
+      <p><strong>📞 Phone:</strong> +234 9012235892</p>
+      <p><strong>📍 Address:</strong> Jos, Plateau State, Nigeria</p>
+    </div>
+  </section>
 
   <!-- Footer -->
-  <footer>
+  <footer class="fade-in">
     <p>&copy; 2025 My Business. All Rights Reserved.</p>
   </footer>
+
+  <!-- Scroll-to-Top Button -->
+  <button id="scrollTopBtn">⬆</button>
 
   <script src="script.js"></script>
 </body>
