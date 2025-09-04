@@ -150,7 +150,7 @@ setInterval(() => {
 window.addEventListener("resize", updateSlidePosition);
 updateSlidePosition();
 
-// ===== Portfolio Filter =====
+// ===== Portfolio Filter with Animation =====
 const filterButtons = document.querySelectorAll(".filter-btn");
 const portfolioItems = document.querySelectorAll(".portfolio-item");
 
@@ -158,17 +158,89 @@ filterButtons.forEach(button => {
   button.addEventListener("click", () => {
     const category = button.getAttribute("data-category");
 
-    // Remove active from all buttons
+    // Remove active class from all buttons
     filterButtons.forEach(btn => btn.classList.remove("active"));
     button.classList.add("active");
 
-    // Show/hide portfolio items
+    // Show/hide items with fade effect
     portfolioItems.forEach(item => {
+      item.style.transition = "all 0.5s ease";
       if (category === "all" || item.getAttribute("data-category") === category) {
+        item.style.opacity = "1";
+        item.style.transform = "scale(1)";
         item.style.display = "block";
       } else {
-        item.style.display = "none";
+        item.style.opacity = "0";
+        item.style.transform = "scale(0.8)";
+        setTimeout(() => { item.style.display = "none"; }, 500);
       }
     });
   });
 });
+
+
+// ===== Portfolio Modal =====
+const modal = document.getElementById("portfolio-modal");
+const modalImage = document.getElementById("modal-image");
+const modalTitle = document.getElementById("modal-title");
+const modalDescription = document.getElementById("modal-description");
+const modalLinks = document.getElementById("modal-links");
+const modalClose = document.querySelector(".modal-close");
+
+// Sample data for portfolio items (update links as needed)
+const projectsData = [
+  {
+    title: "Personal Website",
+    description: "A responsive portfolio website built with HTML, CSS, and JS.",
+    image: "project1.png",
+    links: [
+      { text: "View Code", url: "https://github.com/username/project1" },
+      { text: "Live Demo", url: "https://username.github.io/project1" }
+    ]
+  },
+  {
+    title: "Logo Design",
+    description: "Creative logo designs made for small businesses using Illustrator.",
+    image: "project2.png",
+    links: [
+      { text: "View Project", url: "#" }
+    ]
+  },
+  {
+    title: "Data Analysis Script",
+    description: "Python script to analyze sales data and generate visual reports.",
+    image: "project3.png",
+    links: [
+      { text: "View Code", url: "https://github.com/username/project3" }
+    ]
+  }
+];
+
+// Open modal when clicking a portfolio item
+document.querySelectorAll(".portfolio-item").forEach((item, index) => {
+  item.addEventListener("click", () => {
+    const project = projectsData[index];
+    modalImage.src = project.image;
+    modalTitle.textContent = project.title;
+    modalDescription.textContent = project.description;
+
+    // Clear previous links
+    modalLinks.innerHTML = "";
+    project.links.forEach(link => {
+      const a = document.createElement("a");
+      a.href = link.url;
+      a.target = "_blank";
+      a.textContent = link.text;
+      a.classList.add("btn");
+      modalLinks.appendChild(a);
+    });
+
+    modal.style.display = "block";
+  });
+});
+
+// Close modal
+modalClose.addEventListener("click", () => { modal.style.display = "none"; });
+window.addEventListener("click", (e) => { if (e.target === modal) modal.style.display = "none"; });
+
+
