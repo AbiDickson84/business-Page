@@ -16,23 +16,21 @@ if (form) {
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    // === Inline Validation ===
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
     const message = document.getElementById("message").value.trim();
 
-    if (name === "" || email === "" || message === "") {
-      status.innerHTML = "<p style='color: red;'>⚠️ Please fill in all fields.</p>";
+    if (!name || !email || !message) {
+      status.innerHTML = "<p style='color:red;'>⚠️ Please fill in all fields.</p>";
       return;
     }
 
     const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
     if (!email.match(emailPattern)) {
-      status.innerHTML = "<p style='color: red;'>⚠️ Please enter a valid email address.</p>";
+      status.innerHTML = "<p style='color:red;'>⚠️ Please enter a valid email address.</p>";
       return;
     }
 
-    // === Send Data to Formspree ===
     const formData = new FormData(form);
 
     try {
@@ -43,18 +41,14 @@ if (form) {
       });
 
       if (response.ok) {
-        status.innerHTML = "<p style='color: green;'>✅ Thank you! Your message has been sent.</p>";
+        status.innerHTML = "<p style='color:green;'>✅ Thank you! Your message has been sent.</p>";
         form.reset();
-
-        // Auto-hide success message after 5 seconds
-        setTimeout(() => {
-          status.innerHTML = "";
-        }, 5000);
+        setTimeout(() => { status.innerHTML = ""; }, 5000);
       } else {
-        status.innerHTML = "<p style='color: red;'>⚠️ Oops! Something went wrong. Please try again.</p>";
+        status.innerHTML = "<p style='color:red;'>⚠️ Oops! Something went wrong. Please try again.</p>";
       }
     } catch (error) {
-      status.innerHTML = "<p style='color: red;'>⚠️ Network error. Please check your connection.</p>";
+      status.innerHTML = "<p style='color:red;'>⚠️ Network error. Please check your connection.</p>";
     }
   });
 }
@@ -63,8 +57,7 @@ if (form) {
 document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
   anchor.addEventListener("click", function (e) {
     e.preventDefault();
-
-    document.querySelector(this.getAttribute("href")).scrollIntoView({
+    document.querySelector(this.getAttribute("href"))?.scrollIntoView({
       behavior: "smooth"
     });
   });
@@ -72,47 +65,30 @@ document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
 
 // ===== Sticky Navbar =====
 const navbar = document.querySelector("nav");
-
 window.addEventListener("scroll", () => {
-  if (window.scrollY > 50) {
-    navbar.classList.add("scrolled");
-  } else {
-    navbar.classList.remove("scrolled");
-  }
+  if (window.scrollY > 50) navbar?.classList.add("scrolled");
+  else navbar?.classList.remove("scrolled");
 });
 
 // ===== Scroll-to-Top Button =====
 const scrollTopBtn = document.getElementById("scrollTopBtn");
-
 window.addEventListener("scroll", () => {
-  if (window.scrollY > 300) {
-    scrollTopBtn.style.display = "block";
-  } else {
-    scrollTopBtn.style.display = "none";
-  }
+  if (!scrollTopBtn) return;
+  scrollTopBtn.style.display = window.scrollY > 300 ? "block" : "none";
 });
 
-if (scrollTopBtn) {
-  scrollTopBtn.addEventListener("click", () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  });
-}
+scrollTopBtn?.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 
 // ===== Fade-in on Scroll =====
 const fadeEls = document.querySelectorAll(".fade-in");
-
 const fadeInOnScroll = () => {
   fadeEls.forEach(el => {
     const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight - 100) {
-      el.classList.add("visible");
-    }
+    if (rect.top < window.innerHeight - 100) el.classList.add("visible");
   });
 };
-
 window.addEventListener("scroll", fadeInOnScroll);
 window.addEventListener("load", fadeInOnScroll);
 
@@ -120,32 +96,25 @@ window.addEventListener("load", fadeInOnScroll);
 window.addEventListener("load", () => {
   const preloader = document.getElementById("preloader");
   if (preloader) {
-    preloader.style.opacity = "0";      // fade out
-    setTimeout(() => {
-      preloader.style.display = "none"; // hide completely
-    }, 500);
+    preloader.style.opacity = "0";
+    setTimeout(() => { preloader.style.display = "none"; }, 500);
   }
 });
-
-// Safety: Auto-hide preloader after 2s in case load is slow
 setTimeout(() => {
   const preloader = document.getElementById("preloader");
   if (preloader && preloader.style.display !== "none") {
     preloader.style.opacity = "0";
-    setTimeout(() => {
-      preloader.style.display = "none";
-    }, 300);
+    setTimeout(() => { preloader.style.display = "none"; }, 300);
   }
 }, 2000);
 
-// ===== Testimonial Carousel (Updated, Sliding Version) =====
+// ===== Testimonial Carousel =====
 const track = document.querySelector(".testimonial-track");
 const carouselSlides = document.querySelectorAll(".testimonial-slide");
 const nextBtn = document.getElementById("next");
 const prevBtn = document.getElementById("prev");
 let carouselIndex = 0;
 
-// Number of slides visible based on screen width
 function getSlidesToShow() {
   if (window.innerWidth >= 1024) return 3;
   if (window.innerWidth >= 768) return 2;
@@ -153,85 +122,53 @@ function getSlidesToShow() {
 }
 
 function updateSlidePosition() {
+  if (!track || carouselSlides.length === 0) return;
   const slidesToShow = getSlidesToShow();
   const slideWidth = carouselSlides[0].getBoundingClientRect().width;
   const offset = slideWidth * carouselIndex;
   track.style.transform = `translateX(-${offset}px)`;
 }
 
-// Next button
-if (nextBtn) {
-  nextBtn.addEventListener("click", () => {
-    const slidesToShow = getSlidesToShow();
-    carouselIndex++;
-    if (carouselIndex > carouselSlides.length - slidesToShow) carouselIndex = 0;
-    updateSlidePosition();
-  });
-}
-
-// Prev button
-if (prevBtn) {
-  prevBtn.addEventListener("click", () => {
-    const slidesToShow = getSlidesToShow();
-    carouselIndex--;
-    if (carouselIndex < 0) carouselIndex = carouselSlides.length - slidesToShow;
-    updateSlidePosition();
-  });
-}
-
-// Auto-slide every 5s
-setInterval(() => {
-  const slidesToShow = getSlidesToShow();
+nextBtn?.addEventListener("click", () => {
   carouselIndex++;
-  if (carouselIndex > carouselSlides.length - slidesToShow) carouselIndex = 0;
+  if (carouselIndex > carouselSlides.length - getSlidesToShow()) carouselIndex = 0;
+  updateSlidePosition();
+});
+
+prevBtn?.addEventListener("click", () => {
+  carouselIndex--;
+  if (carouselIndex < 0) carouselIndex = carouselSlides.length - getSlidesToShow();
+  updateSlidePosition();
+});
+
+setInterval(() => {
+  carouselIndex++;
+  if (carouselIndex > carouselSlides.length - getSlidesToShow()) carouselIndex = 0;
   updateSlidePosition();
 }, 5000);
 
-// Update on window resize
 window.addEventListener("resize", updateSlidePosition);
-
-// Initialize position
 updateSlidePosition();
 
+// ===== Portfolio Filter =====
+const filterButtons = document.querySelectorAll(".filter-btn");
+const portfolioItems = document.querySelectorAll(".portfolio-item");
 
-// const track = document.querySelector('.testimonial-track'); // Removed duplicate declaration
-const dotSlides = Array.from(document.querySelectorAll('.testimonial-slide'));
-const prevBtnDots = document.getElementById('prev');
-const nextBtnDots = document.getElementById('next');
-const dotsContainer = document.getElementById('testimonial-dots');
+filterButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    const category = button.getAttribute("data-category");
 
-let currentIndex = 0;
+    // Remove active from all buttons
+    filterButtons.forEach(btn => btn.classList.remove("active"));
+    button.classList.add("active");
 
-// Create dots dynamically
-dotSlides.forEach((_, index) => {
-  const dot = document.createElement('button');
-  if (index === 0) dot.classList.add('active');
-  dot.addEventListener('click', () => goToSlide(index));
-  dotsContainer.appendChild(dot);
-});
-
-const dots = document.querySelectorAll('.testimonial-dots button');
-
-// Update slide position
-function updateDotSlidePosition() {
-  track.style.transform = `translateX(-${currentIndex * 100}%)`;
-  dots.forEach(dot => dot.classList.remove('active'));
-  dots[currentIndex].classList.add('active');
-}
-
-// Go to specific slide
-function goToSlide(index) {
-  currentIndex = index;
-  updateDotSlidePosition();
-}
-
-// Next & Prev buttons
-nextBtnDots.addEventListener('click', () => {
-  currentIndex = (currentIndex + 1) % dotSlides.length;
-  updateDotSlidePosition();
-});
-
-prevBtnDots.addEventListener('click', () => {
-  currentIndex = (currentIndex - 1 + dotSlides.length) % dotSlides.length;
-  updateDotSlidePosition();
+    // Show/hide portfolio items
+    portfolioItems.forEach(item => {
+      if (category === "all" || item.getAttribute("data-category") === category) {
+        item.style.display = "block";
+      } else {
+        item.style.display = "none";
+      }
+    });
+  });
 });
